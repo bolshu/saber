@@ -10,7 +10,7 @@ import {
 
 import PlayArrowIcon from '@material-ui/icons/PlayArrow';
 
-import { AvailableTask } from './types';
+import { AvailableTask } from '../../types';
 
 type Props = {
   tasks: AvailableTask[];

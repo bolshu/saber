@@ -1,16 +1,29 @@
 import React from 'react'
+import { Link } from 'react-router-dom';
+
 import {
   AppBar,
   Toolbar,
-  Typography,
 } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
 
-export const Header = () => (
-    <AppBar position="static">
-        <Toolbar>
-            <Typography variant="subtitle1" color="inherit" component="a" href="/">
-                Mass Tasks
-            </Typography>
-        </Toolbar>
-    </AppBar>
-);
+const useStyles = makeStyles({
+    link: {
+        textDecoration: 'none',
+        color: '#fff',
+    },
+});
+
+export const Header = () => {
+    const classes = useStyles();
+
+    return (
+        <AppBar position="static">
+            <Toolbar>
+                <Link to="/" className={classes.link}>
+                    Mass Tasks
+                </Link>
+            </Toolbar>
+        </AppBar>
+    );
+};

@@ -16,7 +16,7 @@ import AutorenewIcon from '@material-ui/icons/Autorenew';
 import RefreshIcon from '@material-ui/icons/Refresh';
 import ErrorOutlineIcon from '@material-ui/icons/ErrorOutline';
 
-import { CurrentTask, Status } from './types';
+import { CurrentTask, Status } from '../../types';
 
 type TaskStatusProps = {
   status: Status;

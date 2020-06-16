@@ -1,7 +1,7 @@
 import React, {
-  useEffect,
-  useState,
+  useContext,
 } from 'react';
+import { Link } from 'react-router-dom';
 
 import {
   List,
@@ -9,49 +9,48 @@ import {
   ListItemText,
   Typography,
 } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
 
-import { Skeleton } from './Skeleton';
-import { mockApi } from './mockApi';
+import { AppContext } from '../../AppProvider';
+import { Spinner } from '../Spinner/Spinner';
 
-export type Project = {
-  id: string;
-  name: string;
-};
+const useStyles = makeStyles({
+  link: {
+    display: 'block',
+    textDecoration: 'none',
+    color: 'inherit',
+    padding: '10px 16px',
+    lineHeight: '24px',
+    backgroundColor: 'rgba(0, 0, 0, 0)',
+    transition: '.3s',
+    '&:hover': {
+      backgroundColor: 'rgba(0, 0, 0, 0.04)',
+    }
+  },
+});
+
 
 export const ProjectList = (): JSX.Element => {
-  const [projects, setProjects] = useState<Project[]>([]);
-  const [isFetched, setIsFetched] = useState<boolean>(false);
+  const classes = useStyles();
 
-  useEffect(() => {
-    // simulate fetch data from server
-    mockApi(setProjects, setIsFetched);
-  }, []);
+  const {
+    projects,
+    isFetched,
+  } = useContext(AppContext);
 
   return (
-    <>
-      <Typography variant="h3" component="h1" gutterBottom>
-        List of projects
-      </Typography>
+    isFetched
+      ? <>
+          <Typography variant="h3" component="h1" gutterBottom>
+            List of projects
+          </Typography>
 
-      {isFetched
-        ? <List>
-            {projects.map(({ id, name }) => (
-              <ListItem
-                key={id}
-                component="a"
-                href={`/project/${id}`}
-                button
-              >
-                <ListItemText primary={name} />
-              </ListItem>
-            ))}
-          </List>
-        : <Skeleton />
-      }
-    </>
+          {projects.map(({ id, name }) => (
+            <Link key={id} to={`/project/${id}`} className={classes.link}>
+              {name}
+            </Link>
+          ))}
+        </>
+      : <Spinner />
   );
-}
-
-
-
-
+};

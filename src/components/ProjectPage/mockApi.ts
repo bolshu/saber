@@ -2,7 +2,7 @@ import {
   AvailableTask,
   CurrentTask,
   Project,
-} from './types';
+} from '../../types';
 
 const availableTasks: AvailableTask[] = [
   {
