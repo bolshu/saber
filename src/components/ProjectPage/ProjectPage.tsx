@@ -3,14 +3,14 @@ import React, {
   useState,
 } from 'react';
 
-import {
-  List,
-  ListItem,
-  ListItemText,
-  Typography,
-} from '@material-ui/core';
+import { Typography } from '@material-ui/core';
+
+import { mockProject } from './mockApi';
+
 import { Skeleton } from './Skeleton';
-import { mockApi } from './mockApi';
+import { AvailableTasks } from './AvailableTasks';
+import { CurrentTasks } from './CurrentTasks';
+
 import { Project } from './types';
 
 export const ProjectPage = (): JSX.Element => {
@@ -19,47 +19,25 @@ export const ProjectPage = (): JSX.Element => {
 
   useEffect(() => {
     // simulate fetch data from server
-    mockApi(setProject, setIsFetched);
+    mockProject(setProject, setIsFetched);
   }, []);
 
   return (
     <div>
-        {isFetched
+        {isFetched && project
           ? <>
-          <Typography variant="h2" component="h1" gutterBottom>
-            {project.id}
-          </Typography>
+              <Typography variant="h3" component="h1" gutterBottom>
+                {project.name}
+              </Typography>
 
-          <Typography variant="subtitle2">
-            {project.id}
-          </Typography>
-          <br/>
-          list of availableTasks
-    
-          <List>
-            <ListItem
-              key={id}
-              href={`/project/${id}`}
-              button
-            >
-              <ListItemText primary={id} />
-            </ListItem>
-          </List>
+              <Typography variant="subtitle2" color="textSecondary">
+                Project id: {project.id}
+              </Typography>
 
-          <br/>
+              <AvailableTasks tasks={project.availableTasks} />
 
-          list of runningTasks
-
-          <List>
-            <ListItem
-              key={id}
-              href={`/project/${id}`}
-              button
-            >
-              <ListItemText primary={id} />
-            </ListItem>
-          </List>
-        </>
+              <CurrentTasks tasks={project.currentTasks} />
+          </>
           : <Skeleton />
         }
     </div>

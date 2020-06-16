@@ -7,6 +7,7 @@ import {
   List,
   ListItem,
   ListItemText,
+  Typography,
 } from '@material-ui/core';
 
 import { Skeleton } from './Skeleton';
@@ -23,27 +24,31 @@ export const ProjectList = (): JSX.Element => {
 
   useEffect(() => {
     // simulate fetch data from server
-    mockApi(setProjects, setIsFetched, 10);
+    mockApi(setProjects, setIsFetched);
   }, []);
 
   return (
-    <div>
-        {isFetched
-          ? <List>
-              {projects.map(({ id, name }) => (
-                <ListItem
-                  key={id}
-                  component="a"
-                  href={`/project/${id}`}
-                  button
-                >
-                  <ListItemText primary={name} />
-                </ListItem>
-              ))}
-            </List>
-          : <Skeleton />
-        }
-    </div>
+    <>
+      <Typography variant="h3" component="h1" gutterBottom>
+        List of projects
+      </Typography>
+
+      {isFetched
+        ? <List>
+            {projects.map(({ id, name }) => (
+              <ListItem
+                key={id}
+                component="a"
+                href={`/project/${id}`}
+                button
+              >
+                <ListItemText primary={name} />
+              </ListItem>
+            ))}
+          </List>
+        : <Skeleton />
+      }
+    </>
   );
 }
 

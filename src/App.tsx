@@ -5,7 +5,10 @@ import {
   Switch,
 } from 'react-router-dom';
 
-import { Container } from '@material-ui/core';
+import { 
+  Box,
+  Container,
+} from '@material-ui/core';
 
 
 import { Header } from './components/Header/Header';
@@ -16,13 +19,15 @@ export const App = (): JSX.Element => (
   <>
     <Header />
 
-    <Container maxWidth="lg">
-      <Router>
-        <Switch>
-          <Route exact path='/' component={ProjectList} />
-          <Route path="/project/:id" component={ProjectPage} />
-        </Switch>
-      </Router>
-    </Container>
+    <Box pt={4} pb={8}>
+      <Container maxWidth="md">
+        <Router>
+          <Switch>
+            <Route exact path='/' component={ProjectList} />
+            <Route path="/project/:id" component={ProjectPage} />
+          </Switch>
+        </Router>
+      </Container>
+    </Box>
   </>
 );

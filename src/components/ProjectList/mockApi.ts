@@ -1,26 +1,33 @@
 import { Project } from './ProjectList';
 
-const mockProjects = (count = 5): Project[] => {
-  const projects = [];
-
-  for (let i = 1; i <= count; i++) {
-    projects.push({
-      id: `project-id-${i}`,
-      name: `Project: ${i}`
-    });
+const projects: Project[] = [
+  {
+    id: 'project-id-1',
+    name: 'Will Rock',
+  }, {
+    id: 'project-id-2',
+    name:'Call of Cthulhu',
+  }, {
+    id: 'project-id-3',
+    name: 'Snowrunner'
+  }, {
+    id: 'project-id-4',
+    name: `The Witcher 3: Wild Hunt. Switch edition`
+  }, {
+    id: 'project-id-5',
+    name: 'Quake Champions'
   }
-  return projects;
-};
+];
 
 type SetProjectsCallback = (arg: Project[]) => void;
 
 type SetIsFetchedCallback = (arg: boolean) => void;
 
-export const mockApi = (setProjects: SetProjectsCallback, setIsFetched: SetIsFetchedCallback, count?: number): void => {
+export const mockApi = (setProjects: SetProjectsCallback, setIsFetched: SetIsFetchedCallback): void => {
   const timer = setInterval(() => {
-    setProjects(mockProjects(count));
+    setProjects(projects);
     setIsFetched(true);
 
     clearInterval(timer);
-  }, 1500);
+  }, 1000);
 };
