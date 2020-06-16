@@ -14,7 +14,7 @@ const useStyles = makeStyles({
     },
 });
 
-export const Header = () => {
+export const Header = (): JSX.Element => {
     const classes = useStyles();
 
     return (
