@@ -1,19 +1,15 @@
-import { Project } from './types';
+import { Project, CurrentTask } from './types';
 
 const availableTasks = [
   {
-    id: 'current-task-id-like-uid-1',
-    name: 'Send message',
-    status: 'Done',
+    id: 'available-task-id-1',
+    name: 'Add subscription',
   }, {
-    id: 'current-task-id-like-uid-2',
+    id: 'available-task-id-2',
     name: 'Add item',
-    status: 'InProgress',
-    progress: 33,
   }, {
-    id: 'current-task-id-like-uid-3',
+    id: 'available-task-id-3',
     name: 'Send message',
-    status: 'Failed',
   },
 ];
 
@@ -48,3 +44,26 @@ export const fetchData = (setProjects: SetProjectsCallback, setIsFetched: SetIsF
     clearInterval(timer);
   }, 1000);
 };
+
+export const generateCurrentTask = (name: string): CurrentTask => {
+  if (name === 'Add subscription') {
+    return {
+      id: Date.now().toString(),
+      name,
+      status: 'Done',
+    };
+  } else if (name === 'Add item') {
+    return {
+      id: Date.now().toString(),
+      name,
+      status: 'InProgress',
+      progress: 33,
+    };
+  } else {
+    return {
+      id: Date.now().toString(),
+      name,
+      status: 'Failed',
+    };
+  }
+}

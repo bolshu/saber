@@ -2,41 +2,45 @@ import React, {
   createContext, 
   useEffect,
   useState,
-  // useCallback,
-  FC,
+  ReactNode,
 } from 'react';
 
-import {
-  Project,
-  // CurrentTask
-} from './types';
-
-import { fetchData } from './mockApi';
+import { Project } from './types';
+import { fetchData, generateCurrentTask } from './mockApi';
 
 type ContextProps = { 
   projects: Project[];
   setProjects: (arg: Project[]) => void;
   isFetched: boolean;
   setIsFetched: (arg: boolean) => void;
-  // runTask: (projectId: string, task: CurrentTask) => void;
+  runTask: (projectId: string, name: string) => void;
 };
 
 export const AppContext = createContext<ContextProps>({} as ContextProps);
 
-export const AppStore: FC = ({ children }) => {
+type Props = {
+  children?: ReactNode;
+}
+
+export const AppStore = ({ children }: Props): JSX.Element => {
   const [projects, setProjects] = useState<Project[]>([]);
   const [isFetched, setIsFetched] = useState<boolean>(false);
 
-  // const runTask = useCallback(() => {
-  //   const projects = {
+  const runTask = (projectId: string, name: string): void => {
+    const newProjects = projects.map(project => {
+      if (project.id !== projectId) return project;
 
-  //   };
+      const currentTask = generateCurrentTask(name);
 
-  //   setProjects(projects);
-  // }, []);
+      project.currentTasks.push(currentTask);
+
+      return project;
+    });
+
+    setProjects(newProjects);
+  };
 
   useEffect(() => {
-    // simulate fetch data from server
     fetchData(setProjects, setIsFetched);
   }, []);
 
@@ -47,6 +51,7 @@ export const AppStore: FC = ({ children }) => {
         setProjects,
         isFetched,
         setIsFetched,
+        runTask,
       }}
     >
       {children}

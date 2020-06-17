@@ -1,5 +1,5 @@
 import React from 'react'
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 import {
   AppBar,
@@ -16,13 +16,16 @@ const useStyles = makeStyles({
 
 export const Header = (): JSX.Element => {
     const classes = useStyles();
+    const location = useLocation();
 
     return (
         <AppBar position="static">
             <Toolbar>
-                <Link to="/" className={classes.link}>
-                    Mass Tasks
-                </Link>
+                {location.pathname !== '/' && (
+                    <Link to="/" className={classes.link}>
+                        Back to projects list
+                    </Link>
+                )}
             </Toolbar>
         </AppBar>
     );

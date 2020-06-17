@@ -59,34 +59,46 @@ export const CurrentTasks = ({ tasks }: Props): JSX.Element => (
       Current tasks
     </Typography>
     
-    {tasks.map(({id, name, status, progress}) => (
-      <Box key={id} mt={2}>
-        <Card variant="outlined">
-          <CardContent>
-            <TaskStatus status={status} />
+    {tasks.length
+      ? tasks.map(({id, name, status, progress}) => (
+          <Box key={id} mt={2}>
+            <Card variant="outlined">
+              <CardContent>
+                <TaskStatus status={status} />
 
-            <Typography variant="h6" component="h2">
-              {name}
-            </Typography>
+                <Typography variant="h6" component="h2">
+                  {name}
+                </Typography>
 
-            <Typography variant="caption" color="textSecondary">
-              {id}
-            </Typography>
-          </CardContent>
+                <Typography variant="caption" color="textSecondary">
+                  {id}
+                </Typography>
+              </CardContent>
 
-          {progress && (
-            <CardContent>
-              <LinearProgress variant="determinate" value={progress} />
-            </CardContent>
-          )}
+              {progress && (
+                <CardContent>
+                  <LinearProgress variant="determinate" value={progress} />
+                </CardContent>
+              )}
 
-          <CardActions>
-              <Button size="small" startIcon={<DeleteIcon />} disabled={status === 'InProgress'}>Remove</Button>
-              <Button size="small" startIcon={<RefreshIcon />} disabled={status === 'Done' || status === 'InProgress'}>Retry</Button>
-              <Button size="small" startIcon={<StopIcon />} disabled={status !== 'InProgress'}>Stop</Button>
-          </CardActions>
-        </Card>
-      </Box> 
-    ))}
+              <CardActions>
+                  <Button size="small" startIcon={<DeleteIcon />} disabled={status === 'InProgress'}>Remove</Button>
+                  <Button size="small" startIcon={<RefreshIcon />} disabled={status === 'Done' || status === 'InProgress'}>Retry</Button>
+                  <Button size="small" startIcon={<StopIcon />} disabled={status !== 'InProgress'}>Stop</Button>
+              </CardActions>
+            </Card>
+          </Box> 
+        ))
+      : (
+          <Box mt={2} textAlign="center">
+            <Card variant="outlined">
+              <CardContent>
+                <Typography variant="body1" color="textSecondary">
+                  No current tasks
+                </Typography>
+              </CardContent>
+            </Card>
+          </Box>
+        )}
   </Box>
 );
