@@ -1,44 +1,76 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Технологии
 
-## Available Scripts
+- Проект сделан на популярном бойлерплейте Create React App. С использованием реакт хуков и функциональных компонентов;
+- Реакт роутер;
+- Тайпсприпт;
+- Стейт-менеджеры не использовал. Сделал все через react context api;
+- Для дизайна использовал библиотеку компонентов material ui.
 
-In the project directory, you can run:
 
-### `npm start`
+## Запуск
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+Запускается скриптом `npm start`.
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
 
-### `npm test`
+## Ответы на вопросы
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+[Задача](https://github.com/bolshu/saber/blob/master/task.md).
 
-### `npm run build`
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+#### Какова будет принципиальная схема построения UI?
+2 экрана: На первом список проектов, на втором весь проект.
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+#### Какие можно сформулировать функциональные требования для Front-End?
+- Интерфейс быстро реагирует на все действия пользователя;
+- Обработаны все состояния интерфейса, чтобы пользователь понимал что происходит;
+- Интерфейс красивый чтобы был. Вёрстка не ехала.
 
-### `npm run eject`
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+#### Какие аспекты при использовании новой секции портала могли быть не учтены в описании задачи?
+- Среднее количество *уникальных типовых задач* в проекте;
+- Среднее количество *запущенных задач* в проекте в одну еденицу времени;
+- Как долго выполняется запущенная задача, от чего это зависит;
+- Какая информация, помимо прогресса, может быть важна в статусе `InProgress`;
+- Как пользователю удобнее разрешать проблемные статусы задач;
+- Что пользователь будет делать с задачами в статусе `Done`?
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Ответы на эти вопросы сильно изменили бы дизайн интерфейса, ux и контракт между фронтом и бэком.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+#### Контракт
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+###### Получение списка возможных задач:
+```
+  {
+    projectId: string;
+  }
+```
 
-## Learn More
+###### Запуск задачи для конкретного проекта, необходимо передать тип задачи и ее параметры, в качестве результата возвращается UID задачи
+Для запуска типовых задач необходимы дополнительные поля, которые будут вариьроваться в зависимости от задачи. Сложно сказать какие.
+```
+  {
+    projectId: string;
+    taskId: string;
+    taskParams: {
+      ...
+    }
+  }
+```
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+###### Получение статуса задачи по UID эксземпляра задачи со следующими полями
+```
+  {
+    id: string;
+  }
+```
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## Мои комментарии
+
+Функционал реализовал частично, поэтому задачи запускаются без внесения параметров, просто по нажатию на кнопку `Start`;
+
+У запущенных задач *Current tasks* есть 3 состояния в интерфейсе. Их можно увидеть, запустив все задачи из списка возможных задач *Available tasks*.
+
+Задачу со статусом `Failed` можно перезапустить.
+
+Задачи со статусами `Done` и `Failed` можно удалить из списка.

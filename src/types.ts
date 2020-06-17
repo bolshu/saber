@@ -7,7 +7,7 @@ export type AvailableTask = {
 }
 
 export type Status = 'InProgress' | 'Done' | 'Failed';
-type Progress = number; // 0 to 100
+type Progress = number; // 0 to 99
 
 export type CurrentTask = {
   id: Id;
