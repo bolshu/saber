@@ -6,12 +6,11 @@ export type AvailableTask = {
   name: Name;
 }
 
-type Uid = string;
 export type Status = 'InProgress' | 'Done' | 'Failed';
 type Progress = number; // 0 to 100
 
 export type CurrentTask = {
-  id: Uid;
+  id: Id;
   name: Name;
   status: Status;
   progress?: Progress;

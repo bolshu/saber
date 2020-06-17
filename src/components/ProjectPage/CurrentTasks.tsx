@@ -1,4 +1,7 @@
-import React from 'react';
+import React, {
+  useContext,
+} from 'react';
+import { useParams } from 'react-router-dom';
 import {
   Box,
   Button,
@@ -11,11 +14,11 @@ import {
 
 import DeleteIcon from '@material-ui/icons/Delete';
 import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
-import StopIcon from '@material-ui/icons/Stop';
 import AutorenewIcon from '@material-ui/icons/Autorenew';
 import RefreshIcon from '@material-ui/icons/Refresh';
 import ErrorOutlineIcon from '@material-ui/icons/ErrorOutline';
 
+import { AppContext } from '../../AppProvider';
 import { CurrentTask, Status } from '../../types';
 
 type TaskStatusProps = {
@@ -53,52 +56,64 @@ type Props = {
   tasks: CurrentTask[];
 }
 
-export const CurrentTasks = ({ tasks }: Props): JSX.Element => (
-  <Box mt={4}>
-    <Typography variant="h4">
-      Current tasks
-    </Typography>
-    
-    {tasks.length
-      ? tasks.map(({id, name, status, progress}) => (
-          <Box key={id} mt={2}>
-            <Card variant="outlined">
-              <CardContent>
-                <TaskStatus status={status} />
+export const CurrentTasks = ({ tasks }: Props): JSX.Element => {
+  const {
+    retryTask,
+    removeTask,
+  } = useContext(AppContext);
+  const { id: projectId } = useParams();
 
-                <Typography variant="h6" component="h2">
-                  {name}
-                </Typography>
+  return (
+    <Box mt={4}>
+      <Typography variant="h4">
+        Current tasks
+      </Typography>
+      
+      {tasks.length
+        ? tasks.map(({id, name, status, progress}) => {
+            const handleRetryClick = () => { retryTask(projectId, id) };
+            const handleRemoveClick = () => { removeTask(projectId, id) };
 
-                <Typography variant="caption" color="textSecondary">
-                  {id}
-                </Typography>
-              </CardContent>
+            return(
+              <Box key={id} mt={2}>
+                <Card variant="outlined">
+                  <CardContent>
+                    <TaskStatus status={status} />
 
-              {progress && (
+                    <Typography variant="h6" component="h2">
+                      {name}
+                    </Typography>
+
+                    <Typography variant="caption" color="textSecondary">
+                      {id}
+                    </Typography>
+                  </CardContent>
+
+                  {progress && (
+                    <CardContent>
+                      <LinearProgress variant="determinate" value={progress} />
+                    </CardContent>
+                  )}
+
+                  <CardActions>
+                      <Button size="small" startIcon={<DeleteIcon />} disabled={status === 'InProgress'} onClick={handleRemoveClick}>Remove</Button>
+                      <Button size="small" startIcon={<RefreshIcon />} disabled={status === 'Done' || status === 'InProgress'} onClick={handleRetryClick}>Retry</Button>
+                  </CardActions>
+                </Card>
+              </Box> 
+            )}
+          )
+        : (
+            <Box mt={2} textAlign="center">
+              <Card variant="outlined">
                 <CardContent>
-                  <LinearProgress variant="determinate" value={progress} />
+                  <Typography variant="body1" color="textSecondary">
+                    No current tasks
+                  </Typography>
                 </CardContent>
-              )}
-
-              <CardActions>
-                  <Button size="small" startIcon={<DeleteIcon />} disabled={status === 'InProgress'}>Remove</Button>
-                  <Button size="small" startIcon={<RefreshIcon />} disabled={status === 'Done' || status === 'InProgress'}>Retry</Button>
-                  <Button size="small" startIcon={<StopIcon />} disabled={status !== 'InProgress'}>Stop</Button>
-              </CardActions>
-            </Card>
-          </Box> 
-        ))
-      : (
-          <Box mt={2} textAlign="center">
-            <Card variant="outlined">
-              <CardContent>
-                <Typography variant="body1" color="textSecondary">
-                  No current tasks
-                </Typography>
-              </CardContent>
-            </Card>
-          </Box>
-        )}
-  </Box>
-);
+              </Card>
+            </Box>
+          )}
+    </Box>
+  );
+}

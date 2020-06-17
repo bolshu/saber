@@ -46,23 +46,25 @@ export const fetchData = (setProjects: SetProjectsCallback, setIsFetched: SetIsF
 };
 
 export const generateCurrentTask = (name: string): CurrentTask => {
+  const task = {
+    id: Date.now().toString(),
+    name,
+  };
+
   if (name === 'Add subscription') {
     return {
-      id: Date.now().toString(),
-      name,
+      ...task,
       status: 'Done',
     };
   } else if (name === 'Add item') {
     return {
-      id: Date.now().toString(),
-      name,
+      ...task,
       status: 'InProgress',
       progress: 33,
     };
   } else {
     return {
-      id: Date.now().toString(),
-      name,
+      ...task,
       status: 'Failed',
     };
   }

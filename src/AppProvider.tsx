@@ -14,6 +14,8 @@ type ContextProps = {
   isFetched: boolean;
   setIsFetched: (arg: boolean) => void;
   runTask: (projectId: string, name: string) => void;
+  retryTask: (projectId: string, taskID: string) => void;
+  removeTask: (projectId: string, taskID: string) => void;
 };
 
 export const AppContext = createContext<ContextProps>({} as ContextProps);
@@ -40,6 +42,42 @@ export const AppStore = ({ children }: Props): JSX.Element => {
     setProjects(newProjects);
   };
 
+  const retryTask = (projectId: string, taskId: string): void => {
+    const newProjects = projects.map(project => {
+      if (project.id !== projectId) return project;
+
+      const newCarrentTasks = project.currentTasks.map(task => {
+        if (task.id !== taskId) {
+          return task;
+        } else {
+          return Object.assign(task, { status: 'Done' });
+        }
+      });
+
+      return {
+        ...project,
+        currentTasks: newCarrentTasks,
+      };
+    });
+
+    setProjects(newProjects);
+  };
+
+  const removeTask = (projectId: string, taskId: string): void => {
+    const newProjects = projects.map(project => {
+      if (project.id !== projectId) return project;
+
+      const newCarrentTasks = project.currentTasks.filter(task => task.id !== taskId);
+
+      return {
+        ...project,
+        currentTasks: newCarrentTasks,
+      };
+    });
+
+    setProjects(newProjects);
+  };
+
   useEffect(() => {
     fetchData(setProjects, setIsFetched);
   }, []);
@@ -52,6 +90,8 @@ export const AppStore = ({ children }: Props): JSX.Element => {
         isFetched,
         setIsFetched,
         runTask,
+        retryTask,
+        removeTask,
       }}
     >
       {children}
